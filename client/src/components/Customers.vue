@@ -65,7 +65,7 @@
       <b-button type="reset" variant="danger">Reset</b-button>
     </b-form>
   </b-modal>
-  
+
   <!-- Edit customer modal -->
   <b-modal ref="editCustomerModal" id="customer-edit-modal" title="Edit" hide-footer>
     <b-form @submit="onSubmitEdit" @reset="onResetEdit" class="w-100">
@@ -238,6 +238,18 @@ export default {
     created() {
       this.getCustomers();
     }
+  },
+  mounted() {
+    axios
+      .get(
+        "https://0zrpjen2ze.execute-api.us-west-2.amazonaws.com/dev/customers"
+      )
+      .then(res => {
+        this.customers = res.data.customers;
+      })
+      .catch(error => {
+        console.error(error);
+      });
   }
 };
 </script>
