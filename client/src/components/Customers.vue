@@ -83,7 +83,7 @@
           <b-form-checkbox value="true">Contacted?</b-form-checkbox>
         </b-form-checkbox-group>
       </b-form-group>
-      <b-button type="submit" variant="primary">Edit</b-button>
+      <b-button type="submit" variant="primary">Update</b-button>
       <b-button type="reset" variant="danger">Cancel</b-button>
     </b-form>
   </b-modal>
