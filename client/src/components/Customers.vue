@@ -31,7 +31,7 @@
                 <span v-else>No</span>
               </td>
               <td>
-                <button type="button" class="btn btn-warning btn-sm">Edit</button>
+                <button type="button" class="btn btn-warning btn-sm" v-b-modal.customer-edit-modal @click="editCustomer(customer)">Edit</button>
                 <button type="button" class="btn btn-danger btn-sm">Delete</button>
               </td>
             </tr>
@@ -64,6 +64,27 @@
       <b-button type="reset" variant="danger">Reset</b-button>
     </b-form>
   </b-modal>
+  <!-- Edit customer modal -->
+  <b-modal ref="editCustomerModal" id="customer-edit-modal" title="Edit" hide-footer>
+    <b-form @submit="onSubmitEdit" @reset="onResetEdit" class="w-100">
+      <b-form-group id="form-name-edit-group" label="Name:" label-for="form-name-edit-input">
+        <b-form-input id="form-name-edit-input" type="text" v-model="editForm.name" required placeholder="Enter name"></b-form-input>
+      </b-form-group>
+      <b-form-group id="form-email-edit-group" label="Email:" label-for="form-email-edit-input">
+        <b-form-input id="form-email-edit-input" type="text" v-model="editForm.email" required placeholder="Enter email"></b-form-input>
+      </b-form-group>
+      <b-form-group id="form-phone-edit-group" label="Phone:" label-for="form-phone-edit-input">
+        <b-form-input id="form-phone-edit-input" type="text" v-model="editForm.phone" required placeholder="Enter phone"></b-form-input>
+      </b-form-group>
+      <b-form-group id="form-contacted-edit-group">
+        <b-form-checkbox-group id="form-checks" v-model="editForm.contacted">
+          <b-form-checkbox value="true">Contacted?</b-form-checkbox>
+        </b-form-checkbox-group>
+      </b-form-group>
+      <b-button type="submit" variant="primary">Edit</b-button>
+      <b-button type="reset" variant="danger">Cancel</b-button>
+    </b-form>
+  </b-modal>
   </div>
 </template>
 
@@ -80,6 +101,13 @@ export default {
         email: "",
         phone: "",
         contacted: []
+      },
+      editForm: {
+        id: "",
+        name: "",
+        email: "",
+        phone: "",
+        read: []
       },
       message: "",
       showMessage: false
@@ -118,11 +146,33 @@ export default {
           this.getCustomers();
         });
     },
+    editCustomer(payload, customerID) {
+      axios
+        .put(
+          `https://0zrpjen2ze.execute-api.us-west-2.amazonaws.com/dev/customers/${customerID}`,
+          payload
+        )
+        .then(() => {
+          this.getCustomers();
+          this.message = "Customer updated!";
+          this.showMessage = true;
+        })
+        .catch(error => {
+          console.error(error);
+          this.getCustomers();
+        });
+    },
     initForm() {
       this.addCustomerForm.name = "";
       this.addCustomerForm.email = "";
       this.addCustomerForm.phone = "";
       this.addCustomerForm.contacted = [];
+      this.editForm.id = "";
+      this.editForm.name = "";
+      this.editForm.email = "";
+      this.editForm.phone = "";
+      this.editForm.contacted = [];
+      this.editForm.id = "";
     },
     onSubmit(evt) {
       evt.preventDefault();
@@ -138,10 +188,32 @@ export default {
       this.addCustomer(payload);
       this.initForm();
     },
+    onSubmitEdit(evt) {
+      evt.preventDefault();
+      this.$refs.editCustomerModal.hide();
+      let contacted = false;
+      if (this.editForm.contacted[0]) contacted = true;
+      const payload = {
+        name: this.editForm.name,
+        email: this.editForm.email,
+        phone: this.editForm.phone,
+        contacted
+      };
+      this.editCustomer(payload, this.editForm.id);
+    },
     onReset(evt) {
       evt.preventDefault();
       this.$refs.addCustomerModal.hide();
       this.initForm();
+    },
+    onResetEdit(evt) {
+      evt.preventDefault();
+      this.$refs.editCustomerModal.hide();
+      this.initForm();
+      this.getCustomers();
+    },
+    editCustomer(customer) {
+      this.editForm = customer;
     },
     created() {
       this.getCustomers();
