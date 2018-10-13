@@ -32,13 +32,14 @@
               </td>
               <td>
                 <button type="button" class="btn btn-warning btn-sm" v-b-modal.customer-edit-modal @click="editCustomer(customer)">Edit</button>
-                <button type="button" class="btn btn-danger btn-sm">Delete</button>
+                <button type="button" class="btn btn-danger btn-sm" @click="deleteCustomer(customer)">Delete</button>
               </td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
+
   <!-- Add customer modal -->
   <!-- Use v-model directive for 2-way binding on elements -->
     <b-modal ref="addCustomerModal" id="customer-modal" title="Add a new customer" hide-footer>
@@ -64,6 +65,7 @@
       <b-button type="reset" variant="danger">Reset</b-button>
     </b-form>
   </b-modal>
+  
   <!-- Edit customer modal -->
   <b-modal ref="editCustomerModal" id="customer-edit-modal" title="Edit" hide-footer>
     <b-form @submit="onSubmitEdit" @reset="onResetEdit" class="w-100">
@@ -162,6 +164,21 @@ export default {
           this.getCustomers();
         });
     },
+    removeCustomer(customerID) {
+      axios
+        .delete(
+          `https://0zrpjen2ze.execute-api.us-west-2.amazonaws.com/dev/customers/${customerID}`
+        )
+        .then(() => {
+          this.getCustomers();
+          this.message = "Customer removed!";
+          this.showMessage = true;
+        })
+        .catch(error => {
+          console.error(error);
+          this.getCustomers();
+        });
+    },
     initForm() {
       this.addCustomerForm.name = "";
       this.addCustomerForm.email = "";
@@ -211,6 +228,9 @@ export default {
       this.$refs.editCustomerModal.hide();
       this.initForm();
       this.getCustomers();
+    },
+    deleteCustomer(customer) {
+      this.removeCustomer(customer.id);
     },
     editCustomer(customer) {
       this.editForm = customer;
