@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <p>{{ msg }}</p>
+  <div class="containter">
+    <h1>{{ msg }}</h1>
   </div>
 </template>
 
@@ -16,13 +16,11 @@ export default {
   },
   methods: {
     getMessage() {
-      const path =
-        "https://0zrpjen2ze.execute-api.us-west-2.amazonaws.com/dev/test";
       axios
-        .get(path)
-        .then(response => {
-          console.log(response.data);
-          this.msg = response.data;
+        .get("https://0zrpjen2ze.execute-api.us-west-2.amazonaws.com/dev/test")
+        .then(res => {
+          console.log(res.data);
+          this.msg = res.data;
         })
         .catch(error => {
           console.error(error);
