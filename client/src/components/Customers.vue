@@ -1,8 +1,8 @@
 <template>
   <div class="container-fluid">
-    
     <div class="row">
       <div class="col-sm-10">
+        <div class="container-fluid">
         <h1>Customers</h1>
         <hr>
         <button type="button" class="btn btn-info btn-sm" v-b-modal.customer-modal>Add customer</button>
@@ -15,7 +15,7 @@
               <th scope="col">Name</th>
               <th scope="col">Email</th>
               <th scope="col">Phone</th>
-              <th scope="col">Contacted?</th>
+              <th scope="col" id="contacted">Contacted?</th>
               <th></th>
             </tr>
           </thead>
@@ -30,11 +30,9 @@
                 <span v-if="customer.contacted">Yes</span>
                 <span v-else>No</span>
               </td>
-              <td>
+              <td id="edit-delete">
                 <button type="button" class="btn btn-outline-info btn-sm " v-b-modal.customer-edit-modal @click="editCustomer(customer)"><i class="fa fa-edit"></i></button>
                 <button type="button" class="btn btn-outline-danger btn-sm" @click="deleteCustomer(customer)"><i class="fa fa-trash"></i></button>
-                
-            
               </td>
             </tr>
           </tbody>
@@ -42,6 +40,7 @@
         </div>
         <!-- Alert component -->
         <alert :message=message v-if="showMessage"></alert>
+      </div>
       </div>
     </div>
 
@@ -267,9 +266,7 @@ export default {
 table {
   margin: 0 auto;
 }
-h1 {
-  font-weight: 200;
-}
+
 #add-customer {
   background: black;
 }
