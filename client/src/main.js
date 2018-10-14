@@ -5,9 +5,15 @@ import App from "./App";
 import router from "./router";
 import "bootstrap/dist/css/bootstrap.css";
 import BootstrapVue from "bootstrap-vue";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { faCoffee } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 Vue.config.productionTip = false;
 Vue.use(BootstrapVue);
+library.add(faCoffee);
+
+Vue.component("font-awesome-icon", FontAwesomeIcon);
 
 /* eslint-disable no-new */
 new Vue({

@@ -1,16 +1,16 @@
 <template>
-  <div class="container">
+  <div class="container-fluid">
+    
     <div class="row">
       <div class="col-sm-10">
         <h1>Customers</h1>
-        <hr><br><br>
-        <!-- Alert component -->
-        <alert :message=message v-if="showMessage"></alert>
-        <button type="button" class="btn btn-success btn-sm" v-b-modal.customer-modal>Add customer</button>
+        <hr>
+        <button type="button" class="btn btn-info btn-sm" v-b-modal.customer-modal>Add customer</button>
         <br><br>
         <!-- Customer table-->
+        <div class="table-responsive-sm">
         <table class="table table-hover">
-          <thead>
+          <thead class="thead-dark">
             <tr>
               <th scope="col">Name</th>
               <th scope="col">Email</th>
@@ -31,12 +31,17 @@
                 <span v-else>No</span>
               </td>
               <td>
-                <button type="button" class="btn btn-warning btn-sm" v-b-modal.customer-edit-modal @click="editCustomer(customer)">Edit</button>
-                <button type="button" class="btn btn-danger btn-sm" @click="deleteCustomer(customer)">Delete</button>
+                <button type="button" class="btn btn-outline-info btn-sm " v-b-modal.customer-edit-modal @click="editCustomer(customer)"><i class="fa fa-edit"></i></button>
+                <button type="button" class="btn btn-outline-danger btn-sm" @click="deleteCustomer(customer)"><i class="fa fa-trash"></i></button>
+                
+            
               </td>
             </tr>
           </tbody>
         </table>
+        </div>
+        <!-- Alert component -->
+        <alert :message=message v-if="showMessage"></alert>
       </div>
     </div>
 
@@ -61,8 +66,8 @@
           <b-form-checkbox value="true">Contacted?</b-form-checkbox>
         </b-form-checkbox-group>
       </b-form-group>
-      <b-button type="submit" variant="primary">Submit</b-button>
-      <b-button type="reset" variant="danger">Reset</b-button>
+      <b-button type="submit" variant="info">Submit</b-button>
+      <b-button type="reset" variant="outline-danger">Reset</b-button>
     </b-form>
   </b-modal>
 
@@ -83,8 +88,8 @@
           <b-form-checkbox value="true">Contacted?</b-form-checkbox>
         </b-form-checkbox-group>
       </b-form-group>
-      <b-button type="submit" variant="primary">Update</b-button>
-      <b-button type="reset" variant="danger">Cancel</b-button>
+      <b-button type="submit" variant="info">Update</b-button>
+      <b-button type="reset" variant="outline-danger">Cancel</b-button>
     </b-form>
   </b-modal>
   </div>
@@ -253,3 +258,23 @@ export default {
   }
 };
 </script>
+
+<style>
+.container {
+  background: white;
+  padding: 0px;
+}
+table {
+  margin: 0 auto;
+}
+h1 {
+  font-weight: 200;
+}
+#add-customer {
+  background: black;
+}
+.icon {
+  width: 2em;
+  height: 2em;
+}
+</style>
