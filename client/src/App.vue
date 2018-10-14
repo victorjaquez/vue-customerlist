@@ -16,7 +16,7 @@ export default {
   padding: 0px;
 }
 h1 {
-  font-weight: 200;
+  font-weight: 200 !important;
 }
 i {
   padding: 4px;
